@@ -6,6 +6,65 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
         <script src="rps.js" defer></script>
+        <style>
+            body {
+                display: flex;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 16px;
+                background-color: rgb(43, 42, 42);
+            }
+            main {
+                display: flex;
+                flex-direction: column;
+                height: 400px;
+                width: 400px;
+                align-items: center;
+                justify-content: space-around;
+                margin: 0 auto;
+                background-color: black;
+                border-radius: 5px;
+                border: limegreen solid;
+                padding: 40px;
+            }
+            #displayScore {
+                display: flex;
+                gap: 2em;
+                text-align: center;
+                gap: 50px;
+                flex: 0 0 auto;
+            }
+            #displayScore div {
+                border: limegreen solid;
+                color: limegreen;
+                /*! width: 5px; */
+                min-width: 150px;
+                border-radius: 5px;
+            }
+            #buttoncontainer {
+                display: flex;
+                justify-content: space-between;
+                min-width: 100%;
+                
+            }
+            #buttoncontainer button {
+                padding: 1em;
+                background-color: limegreen;
+                border-radius: 5px;
+                border: rgb(166, 255, 193) solid;
+                text-transform: uppercase;
+            }
+            #results {
+                align-self: flex-start;
+                height: 3em;
+                background: black;
+                color: limegreen;
+                padding: 10px;
+                font-family: Courier, monospace;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+        </style>
     </head>
     <body>
         <main>
@@ -15,6 +74,16 @@
                 <button id="scissors">Scissors</button>
             </div>
             <div id="results"></div>
+            <div id="displayScore">
+                <div id="player">
+                    <h2>Player</h2>
+                    <h1 class="score">0</h1>
+                </div>
+                <div id="computer">
+                    <h2>Computer</h2>
+                    <h1 class="score">0</h1>
+                </div>
+            </div>
         </main>
     </body>
 </html>

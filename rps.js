@@ -24,70 +24,113 @@ function capitalize(str) {
 }
 
 function playRoundRPS(computer_choice, player_choice) {
-    displayMessage("");
-    let outputstring ="Player choice " + player_choice;
-    outputstring += "<br>Computer choice " + computer_choice;
+    displayRoundResult("");
+    let outputstring ="Player chose " + player_choice;
+    outputstring += "<br>Computer chose " + computer_choice;
     outputstring += "<br>";
     if (player_choice === computer_choice) {
-        return displayMessage(outputstring + "It's a draw!");
+        return displayRoundResult(outputstring + "It's a draw!");
         
     }
     if (computer_choice === "Rock") {
         if (player_choice === "Paper") {
-            return displayMessage(outputstring + `You win! ${player_choice} beats ${computer_choice}`);
+            updateScore('player');
+            return displayRoundResult(outputstring + `You win! ${player_choice} beats ${computer_choice}`);
         } else if (player_choice === "Scissors") {
-            return displayMessage(outputstring + `You lose! ${player_choice} is defeated by ${computer_choice}`);
+            updateScore('computer');
+            return displayRoundResult(outputstring + `You lose! ${player_choice} is defeated by ${computer_choice}`);
         } 
     }
     if (computer_choice === "Paper") {
         if (player_choice === "Scissors") {
-            return displayMessage(outputstring + `You win! ${player_choice} beats ${computer_choice}`);
+            updateScore('player');
+            return displayRoundResult(outputstring + `You win! ${player_choice} beats ${computer_choice}`);
         } else if (player_choice === "Rock") {
-            return displayMessage(outputstring + `You lose! ${player_choice} is defeated by ${computer_choice}`);
+            updateScore('computer');
+            return displayRoundResult(outputstring + `You lose! ${player_choice} is defeated by ${computer_choice}`);
         } 
     }
     if (computer_choice === "Scissors") {
         if (player_choice === "Rock") {
-            return displayMessage(outputstring + `You win! ${player_choice} beats ${computer_choice}`);
+            updateScore('player');
+            return displayRoundResult(outputstring + `You win! ${player_choice} beats ${computer_choice}`);
         } else if (player_choice === "Paper") {
-            return displayMessage(outputstring + `You lose! ${player_choice} is defeated by ${computer_choice}`);
+            return displayRoundResult(outputstring + `You lose! ${player_choice} is defeated by ${computer_choice}`);
+            
         } 
     }
 }
 
-function getPlayerChoice() {
-    // not used in GUI version
-    const rps_values = ["Rock", "Paper", "Scissors"];
-    while (true) {
-        let pchoice = capitalize(prompt("Make your move: rock, paper or scissors?"));
-        if (rps_values.includes(pchoice)) {
-            return pchoice;
-        } else {
-            alert(`Did you mean to say ${pchoice}? Try again `);
-        }
+function updateScore(winner) {
+    const winnerdiv = document.getElementById(winner);
+    let score_element = winnerdiv.getElementsByClassName('score')[0];
+    let score = Number(score_element.innerText) + 1;
+    score_element.innerText = score;
+
+    if (score >= 5) {
+        console.log('what is going on here');
+        declareWinner(winner);
+    } else {
+        console.log('no winner yet' + (score >= 5));
+        return;
     }
 }
 
-function displayMessage(str) {
+function declareWinner(winner) {
+    winner = capitalize(winner); // capitalise
+    
+    // hide round results and buttons and add winner message
+    const resultsDiv = document.getElementById('results');
+    const buttons = document.getElementById('buttoncontainer');
+    const winnerDiv = document.createElement('div');
+    winnerDiv.id = 'winner'; 
+    winnerDiv.innerText = winner + ' is the winner!';
+    resultsDiv.after(winnerDiv);
+    resultsDiv.style.display = 'none';
+    buttons.style.display = 'none';
+
+
+    // Button to start new game 
+    const newGameBtn = document.createElement('button');
+    newGameBtn.innerText = 'Play a new game?';
+    newGameBtn.id = 'newGame';
+    newGameBtn.addEventListener('click', newGame);
+    winnerDiv.append(newGameBtn);
+}
+
+
+
+function displayRoundResult(str) { // TODO: rename this
     document.getElementById('results').innerHTML = str;
 }
 
 function playRound(e) {
-    console.log(this.innerText);
-    playRoundRPS(getComputerChoice(), this.innerText);
+    
+    playRoundRPS(getComputerChoice(), this.textContent);
 }
 
-function game() {
 
-    // console.log(playRoundRPS(getComputerChoice(), getPlayerChoice()));
+function newGame() {
+    const winnerDiv = document.getElementById('winner');
+    winnerDiv.remove();
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.textContent = 'Now starting a new game...';
+    resultsDiv.style.display = 'block';
 
+    // restore buttons
+    document.getElementById('buttoncontainer').style.display = 'flex';
+
+    // Reset score
+
+    document.querySelectorAll('.score').forEach(elem => elem.textContent = '0')
+
+    setUpScreen; 
 }
 
-function setUpButtons() {
+function setUpScreen() {
     const buttons = document.querySelectorAll('button');
 
     buttons.forEach(btn => btn.addEventListener('click', playRound)); 
 }
 
-setUpButtons();
-game();
+setUpScreen();
