@@ -55,6 +55,7 @@ function playRoundRPS(computer_choice, player_choice) {
             updateScore('player');
             return displayRoundResult(outputstring + `You win! ${player_choice} beats ${computer_choice}`);
         } else if (player_choice === "Paper") {
+            updateScore('computer');
             return displayRoundResult(outputstring + `You lose! ${player_choice} is defeated by ${computer_choice}`);
             
         } 
@@ -64,6 +65,7 @@ function playRoundRPS(computer_choice, player_choice) {
 function updateScore(winner) {
     const winnerdiv = document.getElementById(winner);
     let score_element = winnerdiv.getElementsByClassName('score')[0];
+    console.log(score_element.parentElement);
     let score = Number(score_element.innerText) + 1;
     score_element.innerText = score;
 
